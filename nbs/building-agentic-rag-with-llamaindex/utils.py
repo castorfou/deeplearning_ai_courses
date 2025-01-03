@@ -15,7 +15,12 @@ from llama_index.core.selectors import LLMSingleSelector
 from llama_index.llms.azure_openai import AzureOpenAI
 from llama_index.embeddings.azure_openai import AzureOpenAIEmbedding
 
-from helper import get_azure_openai_keys, get_azure_llm, get_azure_embed_model
+from helper import (
+    get_azure_openai_keys,
+    get_azure_llm,
+    get_azure_embed_model,
+    get_data_path,
+)
 from llama_index.core import Settings
 from typing import List, Optional
 
@@ -77,6 +82,8 @@ def get_doc_tools(
     name: str,
 ) -> str:
     """Get vector query and summary query tools from a document."""
+
+    file_path = get_data_path(file_path)
 
     # load documents
     documents = SimpleDirectoryReader(input_files=[file_path]).load_data()

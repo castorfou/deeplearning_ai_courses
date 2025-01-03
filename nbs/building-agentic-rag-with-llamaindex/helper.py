@@ -5,6 +5,7 @@ from dotenv import load_dotenv, find_dotenv
 from llama_index.llms.azure_openai import AzureOpenAI
 from llama_index.embeddings.azure_openai import AzureOpenAIEmbedding
 from llama_index.core import Settings
+from git import Repo
 
 
 # these expect to find a .env file at the directory above the lesson.                                                                                                                     # the format for that file is (without the comment)                                                                                                                                       #API_KEYNAME=AStringThatIsTheLongAPIKeyFromSomeService
@@ -16,6 +17,39 @@ def get_openai_api_key():
     load_env()
     openai_api_key = os.getenv("OPENAI_API_KEY")
     return openai_api_key
+
+
+DATA_PATH = "data/building-agentic-rag-with-llamaindex"
+
+
+def get_data_path(filename=None, data_path=DATA_PATH):
+    """
+    data_path: str
+        relative path to data files
+        create dir if it doesn t exist
+
+    filename: str or None
+        a relative filename to the data_path
+
+    if filename is None, return the full path to the data_path
+    else return full path to the filename
+    """
+
+    def get_git_root(path):
+        git_repo = Repo(path, search_parent_directories=True)
+        return git_repo.git.rev_parse("--show-toplevel")
+
+    project_root = get_git_root(os.getcwd())
+    full_data_path = os.path.join(project_root, data_path)
+
+    # create dir if it doesn t exist
+    if not os.path.exists(full_data_path):
+        os.makedirs(full_data_path)
+
+    if filename is None:
+        return full_data_path
+    else:
+        return os.path.join(full_data_path, filename)
 
 
 def get_azure_openai_keys():
