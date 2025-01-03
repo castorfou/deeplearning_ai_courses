@@ -1,0 +1,9 @@
+# used in javascript-rag-web-apps-with-llamaindex
+# https://deno.com/blog/v1.37
+
+# install deno
+export DENO_CERT=/home/guillaume/miniconda/lib/python3.9/site-packages/certifi/cacert.pem
+curl -fsSL https://deno.land/x/install/install.sh | sh
+
+# jupyter integration
+deno jupyter --install
